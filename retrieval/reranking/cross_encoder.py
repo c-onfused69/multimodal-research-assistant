@@ -11,7 +11,7 @@ class CrossEncoderReranker:
     @classmethod
     def get_model(cls):
         if cls._model is None:
-            cls._model = FlagReranker(settings.reranker_model, use_fp16=True)
+            cls._model = FlagReranker(settings.reranker_model, use_fp16=False)
         return cls._model
 
     async def rerank(self, query: str, docs: list[RetrievedDoc], top_k: int = 8) -> list[RetrievedDoc]:

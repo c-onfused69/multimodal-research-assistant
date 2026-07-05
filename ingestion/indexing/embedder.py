@@ -11,7 +11,7 @@ class Embedder:
     def get_model(cls):
         if cls._model is None:
             # bge-m3 outputs both dense and sparse (lexical) representations
-            cls._model = BGEM3FlagModel(settings.text_embedding_model, use_fp16=True)
+            cls._model = BGEM3FlagModel(settings.text_embedding_model, use_fp16=False)
         return cls._model
 
     async def embed(self, texts: list[str]) -> list[dict]:

@@ -1,4 +1,5 @@
 from functools import lru_cache
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -12,6 +13,7 @@ class Settings(BaseSettings):
     vlm_model: str = "gpt-4o"                    # image captioning
     anthropic_api_key: str = ""
     openai_api_key: str = ""
+    gemini_api_key: str = ""
     vllm_base_url: str = "http://localhost:8000/v1"
 
     # --- Embeddings ---
@@ -44,6 +46,20 @@ class Settings(BaseSettings):
     text_collection: str = "text_chunks"
     visual_collection: str = "visual_pages"
     table_collection: str = "tables"
+
+    @model_validator(mode="after")
+    def set_default_models(self) -> 'Settings':
+        if self.llm_provider == "openai":
+            if self.llm_model == "claude-sonnet-4-20250514":
+                self.llm_model = "gpt-4o"
+            if self.llm_small_model == "claude-3-5-haiku-latest":
+                self.llm_small_model = "gpt-4o-mini"
+        elif self.llm_provider == "gemini":
+            if self.llm_model == "claude-sonnet-4-20250514":
+                self.llm_model = "gemini-2.5-flash"
+            if self.llm_small_model == "claude-3-5-haiku-latest":
+                self.llm_small_model = "gemini-2.5-flash"
+        return self
 
 
 @lru_cache

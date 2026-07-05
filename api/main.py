@@ -16,6 +16,15 @@ app.add_middleware(
 app.include_router(router, prefix="/api/v1")
 
 
+@app.get("/")
+def root():
+    return {
+        "message": "Welcome to the Multimodal Research Assistant API",
+        "docs_url": "/docs",
+        "health_url": "/health"
+    }
+
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}

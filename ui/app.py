@@ -51,5 +51,11 @@ if prompt := st.chat_input("Ask a question..."):
 
             placeholder.markdown(ans)
             st.session_state.messages.append({"role": "assistant", "content": ans})
+        except requests.exceptions.HTTPError as e:
+            try:
+                err_msg = e.response.json().get("detail", str(e))
+            except Exception:
+                err_msg = str(e)
+            placeholder.markdown(f"**Error:** {err_msg}")
         except Exception as e:
             placeholder.markdown(f"**Error:** {str(e)}")

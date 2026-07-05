@@ -1,5 +1,6 @@
 """Unified async wrapper for Anthropic/OpenAI."""
 import json
+import base64
 from typing import Any, Type
 
 from pydantic import BaseModel
@@ -23,6 +24,11 @@ class LLMClient:
             if api_key:
                 from openai import AsyncOpenAI
                 self.client = AsyncOpenAI(api_key=api_key)
+        elif self.provider == "gemini":
+            api_key = settings.gemini_api_key
+            if api_key:
+                from google import genai
+                self.client = genai.Client(api_key=api_key)
 
     def _check_client(self):
         """Raise a clear error if no LLM client is configured."""
@@ -30,7 +36,7 @@ class LLMClient:
             raise ConnectionError(
                 f"LLM provider '{self.provider}' is not configured. "
                 f"Set the appropriate API key in your .env file "
-                f"(ANTHROPIC_API_KEY or OPENAI_API_KEY)."
+                f"(ANTHROPIC_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY)."
             )
 
     async def complete(self, prompt: str, system: str = "") -> str:
@@ -43,7 +49,7 @@ class LLMClient:
                 messages=[{"role": "user", "content": prompt}]
             )
             return res.content[0].text
-        else:
+        elif self.provider == "openai":
             messages = []
             if system:
                 messages.append({"role": "system", "content": system})
@@ -53,6 +59,15 @@ class LLMClient:
                 messages=messages
             )
             return res.choices[0].message.content
+        elif self.provider == "gemini":
+            from google.genai import types
+            config = types.GenerateContentConfig(system_instruction=system) if system else None
+            res = await self.client.aio.models.generate_content(
+                model=self.model,
+                contents=prompt,
+                config=config
+            )
+            return res.text
 
     async def complete_structured(self, prompt: str, schema: Type[BaseModel], system: str = "") -> BaseModel:
         # Pydantic structured output mapping
@@ -67,6 +82,20 @@ class LLMClient:
                 response_format=schema
             )
             return res.choices[0].message.parsed
+        elif self.provider == "gemini":
+            from google.genai import types
+            self._check_client()
+            config = types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema=schema,
+                system_instruction=system if system else None
+            )
+            res = await self.client.aio.models.generate_content(
+                model=self.model,
+                contents=prompt,
+                config=config
+            )
+            return schema.model_validate_json(res.text)
         else:
             # Fallback to JSON mode for Anthropic/others with prompt injection
             augmented_prompt = f"{prompt}\n\nRespond ONLY with valid JSON matching this schema:\n{schema.model_json_schema()}"
@@ -96,4 +125,14 @@ class LLMClient:
                 ]}]
             )
             return res.choices[0].message.content
-        raise NotImplementedError("Image input only implemented for OpenAI provider here.")
+        elif self.provider == "gemini":
+            from google.genai import types
+            res = await self.client.aio.models.generate_content(
+                model=self.model,
+                contents=[
+                    prompt,
+                    types.Part.from_bytes(data=base64.b64decode(image_b64), mime_type=mime)
+                ]
+            )
+            return res.text
+        raise NotImplementedError(f"Image input not implemented for provider: {self.provider}")
