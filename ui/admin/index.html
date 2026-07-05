@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Dashboard | Multimodal Research Assistant</title>
+    
+    <!-- Google Fonts: Fira Code & Fira Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar / Header -->
+        <header class="admin-header">
+            <div class="logo">
+                <i class="ph-fill ph-terminal-window"></i>
+                <h1>System Admin</h1>
+            </div>
+            <div class="server-status">
+                <span class="status-dot healthy"></span>
+                <span>API Online</span>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard-content">
+            <div class="section-title">
+                <h2>Overview Metrics</h2>
+                <button id="refresh-btn" class="btn-icon" title="Refresh Stats">
+                    <i class="ph-bold ph-arrows-clockwise"></i>
+                </button>
+            </div>
+            
+            <div class="grid-cards">
+                <!-- Qdrant Stats -->
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <i class="ph-fill ph-database text-primary"></i>
+                        <span>Text Chunks</span>
+                    </div>
+                    <div class="stat-value" id="stat-text-chunks">--</div>
+                    <div class="stat-footer">Qdrant Vector DB</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <i class="ph-fill ph-image text-accent"></i>
+                        <span>Visual Pages</span>
+                    </div>
+                    <div class="stat-value" id="stat-visual-pages">--</div>
+                    <div class="stat-footer">ColPali Multivectors</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <i class="ph-fill ph-table text-secondary"></i>
+                        <span>Parsed Tables</span>
+                    </div>
+                    <div class="stat-value" id="stat-tables">--</div>
+                    <div class="stat-footer">Structured Data</div>
+                </div>
+
+                <!-- Redis Stats -->
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <i class="ph-fill ph-lightning text-primary"></i>
+                        <span>Cache Size</span>
+                    </div>
+                    <div class="stat-value" id="stat-cache-size">--</div>
+                    <div class="stat-footer">Redis Semantic Cache</div>
+                </div>
+            </div>
+
+            <!-- Actions Section -->
+            <div class="section-title mt-4">
+                <h2>System Actions</h2>
+            </div>
+            
+            <div class="actions-panel">
+                <div class="action-card">
+                    <div class="action-info">
+                        <h3>Trigger Ingestion Pipeline</h3>
+                        <p>Processes all documents in <code>./data</code>, extracts text, renders pages for ColPali, and indexes them into Qdrant.</p>
+                    </div>
+                    <button id="ingest-btn" class="btn-primary">
+                        <i class="ph-bold ph-play"></i> Run Ingestion
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Logs / Notifications -->
+            <div class="notifications-container" id="notifications">
+                <!-- Notifications injected via JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

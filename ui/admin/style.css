@@ -1,0 +1,274 @@
+:root {
+    --color-primary: #7C3AED;
+    --color-primary-hover: #6D28D9;
+    --color-on-primary: #FFFFFF;
+    --color-secondary: #6366F1;
+    --color-accent: #EC4899;
+    
+    --color-background: #000000; /* Pure OLED Black */
+    --color-surface: #0F172A; /* Slate 900 */
+    --color-surface-hover: #1E293B; /* Slate 800 */
+    
+    --color-foreground: #F8FAFC; /* Slate 50 */
+    --color-muted: #94A3B8; /* Slate 400 */
+    --color-border: #1E293B; /* Slate 800 */
+    
+    --color-success: #10B981;
+    --color-error: #EF4444;
+    
+    --font-ui: 'Fira Sans', -apple-system, sans-serif;
+    --font-mono: 'Fira Code', monospace;
+    
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    
+    --transition-fast: 150ms ease;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-ui);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-6);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--spacing-6);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--spacing-8);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    color: var(--color-foreground);
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.server-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-dot.healthy {
+    background-color: var(--color-success);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+/* Typography & Layout Helpers */
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-4);
+}
+
+.section-title h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mt-4 { margin-top: var(--spacing-8); }
+.text-primary { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.text-secondary { color: var(--color-secondary); }
+
+/* Grid Cards */
+.grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.stat-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--spacing-4);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border-color: var(--color-primary);
+}
+
+.stat-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    margin-bottom: var(--spacing-3);
+}
+
+.stat-header i {
+    font-size: 1.25rem;
+}
+
+.stat-value {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-foreground);
+    line-height: 1;
+    margin-bottom: var(--spacing-2);
+}
+
+.stat-footer {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+}
+
+/* Actions Panel */
+.actions-panel {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--spacing-6);
+}
+
+.action-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-4);
+}
+
+.action-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-2);
+}
+
+.action-info p {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+.action-info code {
+    font-family: var(--font-mono);
+    background-color: var(--color-background);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: var(--color-accent);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    border: none;
+    border-radius: 6px;
+    padding: var(--spacing-3) var(--spacing-6);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.btn-primary:disabled {
+    background-color: var(--color-surface-hover);
+    color: var(--color-muted);
+    cursor: not-allowed;
+}
+
+.btn-icon {
+    background: transparent;
+    color: var(--color-muted);
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn-icon:hover {
+    color: var(--color-foreground);
+    background-color: var(--color-surface);
+}
+
+/* Notifications */
+.notifications-container {
+    position: fixed;
+    bottom: var(--spacing-6);
+    right: var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    z-index: 50;
+}
+
+.notification {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--spacing-4);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    animation: slideIn 0.3s ease-out forwards;
+    max-width: 350px;
+}
+
+.notification.error {
+    border-left-color: var(--color-error);
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+}

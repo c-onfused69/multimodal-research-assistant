@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Multimodal Research Assistant</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Markdown-it for rendering markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.0.0/dist/markdown-it.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="ph-fill ph-brain"></i>
+                    <h1>Research Assistant</h1>
+                </div>
+                <div class="header-controls">
+                    <div class="mode-selector">
+                        <input type="radio" id="mode-fast" name="search-mode" value="fast" checked>
+                        <label for="mode-fast"><i class="ph ph-lightning"></i> Fast</label>
+                        
+                        <input type="radio" id="mode-deep" name="search-mode" value="deep">
+                        <label for="mode-deep"><i class="ph ph-magnifying-glass-plus"></i> Deep</label>
+                        <div class="mode-slider"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Chat Area -->
+        <main class="chat-container">
+            <div id="chat-messages" class="chat-messages">
+                <!-- Welcome Message -->
+                <div class="message assistant-message welcome-message">
+                    <div class="message-avatar">
+                        <i class="ph-fill ph-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <p>Hello! I am your AI-powered Multimodal Research Assistant. Ask me anything about your documents, charts, or images.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Input Area -->
+        <footer class="app-footer">
+            <div class="input-container">
+                <form id="chat-form">
+                    <textarea 
+                        id="user-input" 
+                        placeholder="Ask a question..." 
+                        rows="1" 
+                        autofocus></textarea>
+                    <button type="submit" id="send-btn" title="Send message" disabled>
+                        <i class="ph-bold ph-paper-plane-right"></i>
+                    </button>
+                </form>
+                <div class="input-footer">
+                    <span>Press <kbd>Enter</kbd> to send, <kbd>Shift + Enter</kbd> for new line.</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
