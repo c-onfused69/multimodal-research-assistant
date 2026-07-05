@@ -1,0 +1,2 @@
+{"question": "What is the capital of France?", "answer": "Paris is the capital of France.", "source_doc_ids": ["doc_123"]}
+{"question": "How do you restart a docker container?", "answer": "Run `docker restart <container_id>`.", "source_doc_ids": ["doc_456"]}
