@@ -18,16 +18,21 @@ class VisualRetriever:
 
         acl_filter = {"must": [{"key": "acl", "match": {"any": user_groups}}]}
 
-        res = await self.qdrant.query_points(
-            collection_name=settings.visual_collection,
-            query=query_vecs,
-            using="colpali",
-            limit=top_k,
-            query_filter=acl_filter,
-            with_payload=True
-        )
-
-        return [
-            RetrievedDoc(chunk_id=str(hit.id), score=hit.score, payload=hit.payload)
-            for hit in res.points
-        ]
+        from qdrant_client.http.exceptions import UnexpectedResponse
+        try:
+            res = await self.qdrant.query_points(
+                collection_name=settings.visual_collection,
+                query=query_vecs,
+                using="colpali",
+                limit=top_k,
+                query_filter=acl_filter,
+                with_payload=True
+            )
+            return [
+                RetrievedDoc(chunk_id=str(hit.id), score=hit.score, payload=hit.payload)
+                for hit in res.points
+            ]
+        except UnexpectedResponse as e:
+            if e.status_code == 404:
+                return []
+            raise e

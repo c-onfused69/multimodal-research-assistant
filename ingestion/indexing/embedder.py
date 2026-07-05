@@ -1,4 +1,11 @@
 """Dense (bge-m3) and Sparse (BM25 / SPLADE) embedding generation."""
+import transformers
+_orig_init = transformers.XLMRobertaModel.__init__
+def _new_init(self, config, add_pooling_layer=True, **kwargs):
+    kwargs.pop("dtype", None)
+    _orig_init(self, config, add_pooling_layer=add_pooling_layer, **kwargs)
+transformers.XLMRobertaModel.__init__ = _new_init
+
 from FlagEmbedding import BGEM3FlagModel
 
 from config.settings import settings

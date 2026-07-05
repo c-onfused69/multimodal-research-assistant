@@ -27,7 +27,7 @@ class VisualEmbedder:
         from PIL import Image
         processor, model = self.load()
         pil_imgs = [Image.open(io.BytesIO(b)) for b in images]
-        inputs = processor(images=pil_imgs, return_tensors="pt")
+        inputs = processor.process_images(pil_imgs).to(model.device)
 
         with torch.no_grad():
             embs = model(**inputs)
@@ -35,7 +35,7 @@ class VisualEmbedder:
 
     async def embed_query(self, query: str) -> list[list[float]]:
         processor, model = self.load()
-        inputs = processor(text=[query], return_tensors="pt")
+        inputs = processor.process_queries([query]).to(model.device)
         with torch.no_grad():
             embs = model(**inputs)
         return embs[0].tolist()
